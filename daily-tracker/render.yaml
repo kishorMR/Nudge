@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: daily-brief-api
+    runtime: java
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: gemini.api.key
+        sync: false
+      - key: gemini.api.url
+        sync: false
