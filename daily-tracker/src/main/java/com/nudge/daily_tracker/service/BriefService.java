@@ -12,7 +12,7 @@ import java.util.Map;
 @Service
 public class BriefService {
 
-    @Value("${openrouter.api.key}")
+    @Value("${groq.api.key}")
     private String apiKey;
 
     public String generateBrief(BriefRequest request) {
@@ -27,7 +27,7 @@ public class BriefService {
         );
 
         Map<String, Object> requestBody = Map.of(
-                "model", "meta-llama/llama-3.2-3b-instruct:free",
+                "model", "llama-3.1-8b-instant",
                 "messages", List.of(
                         Map.of("role", "user", "content", prompt)
                 )
@@ -38,7 +38,7 @@ public class BriefService {
         for (int attempt = 1; attempt <= 3; attempt++) {
             try {
                 Map response = client.post()
-                        .uri("https://openrouter.ai/api/v1/chat/completions")
+                        .uri("https://api.groq.com/openai/v1/chat/completions")
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + apiKey)
                         .bodyValue(requestBody)
@@ -50,7 +50,6 @@ public class BriefService {
                         .bodyToMono(Map.class)
                         .block();
 
-                // Extract response
                 List choices = (List) response.get("choices");
                 Map firstChoice = (Map) choices.get(0);
                 Map message = (Map) firstChoice.get("message");
@@ -69,7 +68,6 @@ public class BriefService {
                 }
             }
         }
-
         return "Could not generate brief. Please try again.";
     }
 }
