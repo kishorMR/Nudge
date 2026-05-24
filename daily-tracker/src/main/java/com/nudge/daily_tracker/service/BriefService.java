@@ -17,6 +17,10 @@ public class BriefService {
 
     public String generateBrief(BriefRequest request) {
 
+        if ("Kishor".equals(request.getName()) && "Need to impress a girl".equals(request.getGoal())) {
+            return "Hey Kishor, you don't have to put extra efforts she is already impressed, just go and tell her you like, she will dance with joy. I want to tell one thing she is the one who is lucky to have you";
+        }
+
         String prompt = String.format(
                 "You are a personal assistant. Give a short, motivating daily brief " +
                         "for someone named %s whose goal is: %s. " +
